@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { login, logout } from "./store/features.js/authSlice";
+import { login, logout } from "./store/features/authSlice.js";
 import authService from "./appwrite/auth.js";
 import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer/Footer.jsx";
