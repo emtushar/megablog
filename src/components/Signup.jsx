@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { register, handleSubmit } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { authService } from "../appwrite/auth.js";
 import { login as storeLogin } from "../store/features/authSlice.js";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ function Signup() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
   const handleSignUp = async (data) => {
     setError("");
     try {

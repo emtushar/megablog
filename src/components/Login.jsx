@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login as storeLogin } from "../store/features/authSlice.js";
-import { register, handleSubmit } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import authService from "../appwrite/auth.js";
 import { useNavigate } from "react-router-dom";
 import Input from "./Input.jsx";
 
 function Login() {
   const [error, setError] = useState("");
+  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = async (data) => {
