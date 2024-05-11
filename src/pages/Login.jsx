@@ -1,11 +1,11 @@
-import { Login, Container } from "../components/index";
+import { LoginComponent, Container } from "../components/index";
 import React from "react";
 
 function Login() {
   return (
     <div>
       <Container>
-        <Login />
+        <LoginComponent />
       </Container>
     </div>
   );
