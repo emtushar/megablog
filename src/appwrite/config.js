@@ -1,5 +1,5 @@
 import conf from "../conf/conf.js";
-import { Client, Databases, Query } from "appwrite";
+import { Client, Databases, Query, ID } from "appwrite";
 
 export class Service {
   client = new Client();
@@ -10,25 +10,31 @@ export class Service {
       .setProject(conf.appwriteProjectId);
     this.databases = new Databases(this.client);
   }
+
   async createBlog({ title, content, slug, featuredImage, userId, status }) {
     try {
+      console.log(title, content, slug, featuredImage, userId, status);
+      // const id = slug;
       const createdBlog = await this.databases.createDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug,
         {
           title,
+          slug,
           content,
           featuredImage,
           status,
           userId,
         }
       );
+      console.log("created blog");
       return createdBlog;
     } catch (error) {
       throw error;
     }
   }
+
   async updateBlog(slug, { title, content, featuredImage, status }) {
     try {
       const updatedBlog = await this.databases.updateDocument(
@@ -47,9 +53,10 @@ export class Service {
       throw error;
     }
   }
+
   async deleteBlog(slug) {
     try {
-      await this.databases.deleteDocument(
+      return await this.databases.deleteDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug

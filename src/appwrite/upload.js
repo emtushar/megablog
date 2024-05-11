@@ -1,7 +1,7 @@
 import conf from "../conf/conf.js";
 import { Client, Storage, ID } from "appwrite";
 
-export class UploadService {
+export class Upload {
   client = new Client();
   storage;
   constructor() {
@@ -13,7 +13,11 @@ export class UploadService {
   }
   async uploadImage(file) {
     try {
-      await this.storage.createFile(conf.appwriteBucketId, ID.unique(), file);
+      return await this.storage.createFile(
+        conf.appwriteBucketId,
+        ID.unique(),
+        file
+      );
     } catch (error) {
       throw error;
     }
@@ -21,7 +25,7 @@ export class UploadService {
 
   async deleteFile(fileId) {
     try {
-      await this.storage.deleteFile(conf.appwriteBucketId, fileId);
+      return await this.storage.deleteFile(conf.appwriteBucketId, fileId);
     } catch (error) {
       throw error;
     }
@@ -36,6 +40,6 @@ export class UploadService {
   }
 }
 
-const uploadService = new UploadService();
+const uploadService = new Upload();
 
 export default uploadService;
