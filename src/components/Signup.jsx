@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { authService } from "../appwrite/auth.js";
+import authService from "../appwrite/auth.js";
 import { login as storeLogin } from "../store/features/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -17,21 +17,22 @@ function Signup() {
         console.log("Fields can't be empty");
       }
       const userData = await authService.createAccount(data);
-      if (!userData) {
-        console.log("Failed to create user");
-      }
-      const currentUser = await authService.getCurrentUser(userData);
-      if (!currentUser) {
-        console.log("");
+      if (userData) {
+        const currentUser = await authService.getCurrentUser();
+
+        if (currentUser) {
+          dispatch(storeLogin(currentUser));
+        }
         navigate("/");
       }
-      dispatch(storeLogin(currentUser));
     } catch (error) {
       setError(error.message);
     }
   };
   return (
     <div>
+      {error && <h3>{error}</h3>}
+
       <form onSubmit={handleSubmit(handleSignUp)}>
         <Input
           label="Full Name : "

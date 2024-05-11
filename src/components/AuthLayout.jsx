@@ -14,7 +14,7 @@ function Protected({ children, authentication = "true" }) {
     }
     setLoader(false);
   }, [authStatus, authentication, navigate]);
-  return loader ? <h1>Loading...</h1> : { children };
+  return loader ? <h1>Loading...</h1> : <div>{children}</div>;
 }
 
 export default Protected;

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RTE, Input, Button, Select } from "../index";
 import uploadService from "../../appwrite/upload";
@@ -22,13 +22,15 @@ function PostForm({ post }) {
   const submit = async (data) => {
     if (post) {
       // update
+      console.log(data);
+      console.log(post);
       const file = data.image[0]
         ? await uploadService.uploadImage(data.image[0])
         : undefined;
       if (file) {
         postService.deleteBlog(post.featuredImage);
       }
-      const dbPost = await postService.updateBlog(post?.$id, {
+      const dbPost = await postService.updateBlog(post.$id, {
         ...data,
         featuredImage: file ? file.$id : undefined,
       });
@@ -37,16 +39,21 @@ function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      if (!data || data.image.length <= 0) {
-        console.log("Image is required");
-      }
-      const file = await uploadService(data.image[0]);
+      // if (!data || data.image.length <= 0) {
+      //   console.log("Image is required");
+      // }
+      const file = await uploadService.uploadImage(data.image[0]);
       if (file) {
+        console.log(data);
+        console.log(userData);
         data.featuredImage = file.$id;
+        console.log(data, userData);
         const dbPost = await postService.createBlog({
           ...data,
           userId: userData.$id,
         });
+        console.log(dbPost);
+        console.log("db ke baad");
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
         }
@@ -58,7 +65,7 @@ function PostForm({ post }) {
       return value
         .trim()
         .toLowerCase()
-        .replace(/^[a-zA-Z\d\s]+/g, "-")
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
 
     return "";
@@ -114,7 +121,7 @@ function PostForm({ post }) {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={uploadService.filePreview(post.featuredImage)}
               alt={post.title}
               className="rounded-lg"
             />

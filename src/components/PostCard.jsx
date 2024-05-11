@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import uploadService from "../appwrite/configg";
+import uploadService from "../appwrite/upload";
 
 function PostCard({ $id, title, featuredImage }) {
   return (

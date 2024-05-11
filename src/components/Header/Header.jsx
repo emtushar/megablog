@@ -1,9 +1,7 @@
 import React from "react";
-import LogoutBtn from "./LogoutBtn.jsx";
-import Logo from "../Logo.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Container from "../container/Container.jsx";
+import { Logo, Container, LogoutBtn } from "../index.js";
 
 function Header() {
   const navigate = useNavigate();
